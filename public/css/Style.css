@@ -1,0 +1,90 @@
+*{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    font-size: large;
+}
+
+p{
+    align-items: center;
+    text-align: center;
+    font-size: 18px;
+}
+
+body{
+    background-color: rgb(186, 203, 219);
+}
+.conteudo{
+    background-color:#7655c9;
+    margin-top: 0.4%;
+}
+
+.title{
+    color: #6941cc;
+}
+.btn:link,
+.btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 25px;
+    transition: all .2s;
+    position: absolute;
+    margin-top: 8px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+    background-color:  #6941cc;
+    color: #ffffff;
+}
+
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn-white::after {
+    background-color: #6941cc
+}
+
+.btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.btn-animated {
+    animation: moveInBottom 5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
