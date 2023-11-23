@@ -1,0 +1,58 @@
+// Teste das requisições Rest dos prestadores
+
+@baseURL = http://localhost:4000/api/games
+###
+//GET - lista todos os registros
+GET {{baseURL}}
+Content-Type: application/json
+###
+//GET - lista um registro pelo id
+GET {{baseURL}}/id/651721b35cfed2b590283dc4
+Content-Type: application/json
+###
+//GET - lista um registro pelo nome
+GET {{baseURL}}/nome/V
+Content-Type: application/json
+###
+//DELETE - apaga um registro pelo id (Descobrir o porque não esta deletando)
+DELETE {{baseURL}}/65187c7e79d8a7f0440f6471
+Content-Type: application/json
+###
+//POST - Insere um novo registro
+POST {{baseURL}}
+Content-Type: application/json
+
+    {
+     "nome": "Skyrim",
+    "data-lanc" : "11-11-2011",
+    "premiacao" : "BAFTA Video Games Award: Melhor Jogo",
+    "categoria" : "RPG",
+    "plataformas" : "PC,XBOX,PS4",
+    "Desenvolvedora" : "Bethesda Game Studios",
+    "trofeus": "03"
+}
+
+###
+//PUT - Altera o registro
+PUT {{baseURL}}
+Content-Type: application/json
+
+    {
+    "nome": "Skyrim",
+    "data-lanc" : "11-11-2011",
+    "premiacao" : "BAFTA Video Games Award: Melhor Jogo",
+    "categoria" : "RPGss",
+    "plataformas" : "PC,XBOX,PS4",
+    "Desenvolvedora" : "Bethesda Game Studios",
+    "trofeus": "229"
+}
+###
+GET {{baseURL}}/nome/s
+Content-Type: application/json
+###
+GET {{baseURL}}/trofeus
+Content-Type: application/json
+
+
+
+

@@ -1,0 +1,34 @@
+use('GOTgames')
+db.games.insertOne({
+    "nome": "Valorant",
+    "data-lanc": "02-05-2020",
+    "premiacao": "Melhor Game Competivo do ano",
+    "categoria": "FPS",
+    "plataformas": "PC",
+    "Desenvolvedora": "RIOT",
+    "trofeus": 3
+})
+
+use('GOTgames')
+db.games.insertOne({
+    "nome": "Skyrim",
+    "data-lanc": "11-11-2011",
+    "premiacao": "BAFTA Video Games Award : Melhor Jogo",
+    "categoria": "RPG",
+    "plataformas": "PC,XBOX,PS4",
+    "Desenvolvedora": "Bethesda Game Studios",
+    "trofeus": 229
+})
+use('GOTgames')
+db.games.insertOne({
+    "nome": "Vampyr",
+    "data-lanc": "05-05-2018",
+    "premiacao": "Desconhecida",
+    "categoria": "RPG",
+    "plataformas": " PlayStation 4, Nintendo Switch, Xbox One, Microsoft Windows",
+    "Desenvolvedora": "Dontnod Entertainment, Saber Interactive Inc.",
+    "trofeus": 39
+})
+
+use('GOTgames')
+db.games.deleteMany({})

@@ -1,0 +1,5 @@
+use('GOTgames')
+db.usuarios.drop()
+
+use('GOTgames')
+db.usuarios.find()
