@@ -16,6 +16,11 @@ p{
 body{
     background-color: rgb(186, 203, 219);
 }
+
+.container{
+    color: #6941cc;
+}
+
 .conteudo{
     background-color:#7655c9;
     margin-top: 0.4%;
@@ -65,26 +70,4 @@ body{
 
 .btn-white::after {
     background-color: #6941cc
-}
-
-.btn:hover::after {
-    transform: scaleX(1.4) scaleY(1.6);
-    opacity: 0;
-}
-
-.btn-animated {
-    animation: moveInBottom 5s ease-out;
-    animation-fill-mode: backwards;
-}
-
-@keyframes moveInBottom {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0px);
-    }
 }
