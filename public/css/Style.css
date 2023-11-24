@@ -1,6 +1,7 @@
 *{
     color: white;
     font-family: Arial, Helvetica, sans-serif;
+    
 }
 
 h1{
@@ -17,8 +18,12 @@ body{
     background-color: rgb(186, 203, 219);
 }
 
+.d-flexUsuario{
+    margin-right: 150px;
+}
 .container{
     color: #6941cc;
+    background-color:rgb(186, 203, 219); 
 }
 
 .conteudo{
@@ -71,3 +76,32 @@ body{
 .btn-white::after {
     background-color: #6941cc
 }
+
+.card-containerHome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(186, 203, 219);
+}
+
+.cardHome {
+  width: 300px;
+  height: 400px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardHome h2 {
+  margin-bottom: 10px;
+  color:blueviolet;
+}
+
+.cardHome h3{
+ color: black;
+}   
