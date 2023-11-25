@@ -58,6 +58,11 @@ body{
 .btn-white {
     background-color:  #6941cc;
     color: #ffffff;
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 100px;
+    border-radius: 20px;
+    
 }
 
 .btn::after {
