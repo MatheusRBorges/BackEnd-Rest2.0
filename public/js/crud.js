@@ -1,55 +1,101 @@
-let users = [];
+const modal = document.querySelector('.modal-container')
+const tbody = document.querySelector('tbody')
+const sDesenvolvedora = document.querySelector('#m-desenvolvedora')
+const sNome = document.querySelector('#m-nome')
+const sData = document.querySelector('#m-data')
+const sPremios = document.querySelector('#m-premios')
+const btnSalvar = document.querySelector('#btnSalvar')
 
-function addUser(event) {
-  event.preventDefault();
-  const nameInput = document.getElementById("nameInput");
-  const emailInput = document.getElementById("emailInput");
+let itens
+let id
 
-  const name = nameInput.value.trim();
-  const email = emailInput.value.trim();
+function openModal(edit = false, index = 0) {
+  modal.classList.add('active')
 
-  if (name !== "" && email !== "") {
-    const user = {
-      name: name,
-      email: email
-    };
-
-    users.push(user);
-    nameInput.value = "";
-    emailInput.value = "";
-
-    displayUsers();
+  modal.onclick = e => {
+    if (e.target.className.indexOf('modal-container') !== -1) {
+      modal.classList.remove('active')
+    }
   }
+
+  if (edit) {
+    sDesenvolvedora.value = itens[index].desenvolvedora
+    sNome.value = itens[index].nome
+    sData.value = itens[index].data
+    sPremios.value = itens[index].premios
+    id = index
+  } else {
+    sDesenvolvedora.value = ''
+    sNome.value = ''
+    sData.value = ''
+    sPremios.value = ''
+  }
+  
 }
 
-function displayUsers() {
-  const tableBody = document.getElementById("userTableBody");
-  tableBody.innerHTML = "";
+function editItem(index) {
 
-  users.forEach((user, index) => {
-    const row = tableBody.insertRow();
-
-    const nameCell = row.insertCell(0);
-    nameCell.textContent = user.name;
-
-    const emailCell = row.insertCell(1);
-    emailCell.textContent = user.email;
-
-    const actionsCell = row.insertCell(2);
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Excluir";
-    deleteButton.onclick = () => deleteUser(index);
-
-    actionsCell.appendChild(deleteButton);
-  });
+  openModal(true, index)
 }
 
-function deleteUser(index) {
-  users.splice(index, 1);
-  displayUsers();
+function deleteItem(index) {
+  itens.splice(index, 1)
+  setItensBD()
+  loadItens()
 }
 
-const form = document.getElementById("userForm");
-form.addEventListener("submit", addUser);
+function insertItem(item, index) {
+  let tr = document.createElement('tr')
 
-displayUsers();
+  tr.innerHTML = `
+    <td>${item.desenvolvedora}</td>
+    <td>${item.nome}</td>
+    <td>${item.data}</td>
+    <td>${item.premios}</td>
+    <td class="acao">
+      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+    </td>
+    <td class="acao">
+      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+    </td>
+  `
+  tbody.appendChild(tr)
+}
+
+btnSalvar.onclick = e => {
+  
+  if (sDesenvolvedora.value == '' || sNome.value == '' || sData.value == '' || sPremios.value == '') {
+    return
+  }
+
+  e.preventDefault();
+
+  if (id !== undefined) {
+    itens[id].desenvolvedora = sDesenvolvedora.value
+    itens[id].nome = sNome.value
+    itens[id].data = sData.value
+    itens[id].premios = sPremios.value
+  } else {
+    itens.push({'desenvolvedora': sDesenvolvedora.value, 'nome': sNome.value, 'data': sData.value, 'premios': sPremios.value})
+  }
+
+  setItensBD()
+
+  modal.classList.remove('active')
+  loadItens()
+  id = undefined
+}
+
+function loadItens() {
+  itens = getItensBD()
+  tbody.innerHTML = ''
+  itens.forEach((item, index) => {
+    insertItem(item, index)
+  })
+
+}
+
+const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
+const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
+
+loadItens()
