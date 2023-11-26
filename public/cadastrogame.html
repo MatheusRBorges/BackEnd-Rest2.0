@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,18 +37,17 @@
 <!--Conteudo-->
   <div class="container">
     <div class="header">
-      <center><span>Cadastro de Games</span></center>
+      <span>Cadastro de Games</span>
       <button onclick="openModal()" id="new">Adicionar Game</i></button>
     </div>
-
     <div class="divTable">
       <table>
         <thead>
           <tr>
-            <th>Desenvolvedora</th>
-            <th>Nome do Game</th>
-            <th>Data de Lançamento</th>
-            <th>Prêmios</th>
+            <th style="text-align: center;">Desenvolvedora</th>
+            <th style="text-align: center;">Nome do Game</th>
+            <th style="text-align: center;">Data de Lançamento</th>
+            <th style="text-align: center;">Prêmios</th>
             <th class="acao">Editar</th>
             <th class="acao">Excluir</th>
           </tr>
@@ -58,7 +56,7 @@
         </tbody>
       </table>
     </div>
-
+<!--Modal-->
     <div class="modal-container">
       <div class="modal">
         <form>
@@ -78,7 +76,6 @@
         </form>
       </div>
     </div>
-
 <!--Footer-->
 <footer class="text-white text-center py-3 position-fixed fixed-bottom" style="background-color: #6941cc;">
     &copy; 2023 Black&Purple Company. 
@@ -86,5 +83,4 @@
   </div>
   <script src="js/crud.js"></script>
 </body>
-
 </html>

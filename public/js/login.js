@@ -1,44 +1,52 @@
-//const urlBase = 'https://backend-mongodb-pi.vercel.app/api'
 const urlBase = 'http://localhost:4000/api'
-document.getElementById("loginForm").addEventListener("submit", function (event) {
-    event.preventDefault()
-    const login = document.getElementById("login").value
-    const senha = document.getElementById("senha").value
-    const resultadoModal = new bootstrap.Modal(document.getElementById("modalMensagem"))
 
-    // Dados do usuário para autenticação
+const param = window.location.search
+const urlParams = new URLSearchParams(param);
+const registered = urlParams.get('registered')
+console.log(registered)
+
+if(registered){
+    document.getElementById('status').innerHTML = `<span class="text-success">Cadastro realizado com sucesso!</span>`
+}
+
+// monitorando o submit do formulario
+document.getElementById('loginForm').addEventListener('submit', function(event){
+    event.preventDefault() //evita o recarregamento do form
+    // obtendo os valores do form
+    const login = document.getElementById('login').value
+    const senha = document.getElementById('senha').value
+    const resultadoModal = new bootstrap.Modal(document.getElementById('modalMensagem'))
+    // criando o objeto para autenticar
     const dadosLogin = {
         email: login,
         senha: senha
-    };
+    }
 
-    // Fazer a solicitação POST para o endpoint de login
-    fetch(`${urlBase}/usuarios/login`, {
-        method: "POST",
+    // efetuando o post para a API REST
+    fetch(`${urlBase}/usuarios/login`,{
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(dadosLogin)
     })
-        .then(response => response.json())
-        .then(data => {
-            // Verificar se o token foi retornado        
-            if (data.access_token) {
-                // Armazenar o token no localStorage
-                localStorage.setItem("token", data.access_token);
-                window.location.href = "home.html";
-            } else if (data.errors) {
-                // Caso haja erros na resposta da API
-                const errorMessages = data.errors.map(error => error.msg).join("\n");
-                // alert("Falha no login:\n" + errorMessages);
-                document.getElementById("mensagem").innerHTML = `<span class='text-danger'>${errorMessages}</span>`
-                resultadoModal.show();
-            } else {
-                document.getElementById("mensagem").innerHTML = `<span class='text-danger'>Não foi possível efetuar o login. Verifique as suas credenciais</span>`
-                resultadoModal.show();
-            }
-        })
-        .catch(error => {
-            console.error("Erro durante o login:", error);
-        });
-});
+    .then(response => response.json())
+    .then(data => {
+        // verifica se o token foi retornado
+        if(data.access_token){
+            // armazenamos no localstorage
+            localStorage.setItem('token', data.access_token)
+            window.location.href = 'home.html'
+        } else if(data.errors){ //possui algum erro? 
+            const errorMessages = data.errors.map(error => error.msg).join('<br>')
+            // alert('Falha ao efetuar o login:\n'+errorMessages)
+            document.getElementById('mensagem').innerHTML = `<span class="text-danger">${errorMessages}</span>`
+            resultadoModal.show() //abre o Modal
+        } else{
+            alert('Não foi possível efetuar o login no servidor')
+        }
+    })
+    .catch(error => {
+        console.error(`Erro no login: ${error}`)
+    })
+})

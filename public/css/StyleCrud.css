@@ -20,6 +20,7 @@ button {
   height: 80%;
   border-radius: 10px;
   background: white;
+  
 }
 
 .header {
@@ -31,10 +32,11 @@ button {
   text-align: center;
 }
 
-.header span {
+ span {
   font-weight: 900;
   font-size: 20px;
   word-break: break-all;
+  margin-left: 530px;
 }
 
 #new {
@@ -51,6 +53,7 @@ button {
   width: auto; 
   height:inherit; 
   overflow:auto;
+  text-align: center;
 }
 
 .divTable::-webkit-scrollbar {
@@ -97,6 +100,7 @@ tbody tr {
 thead tr th.acao {
   width: 100px!important;
   text-align: center;
+  
 }
 
 tbody tr td.acao {
@@ -216,6 +220,7 @@ td button {
 
 td button i {
   font-size: 25px;
+  margin-left: 8px;
 }
 
 td button i:first-child {
