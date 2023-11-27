@@ -10,9 +10,8 @@ const nomeCollection = 'games'
 import auth from '../middleware/auth.js';
 
 const validaGames = [
-    // check('nome')
-    //     .not().isEmpty().trim().withMessage('É obrigatório informar o nome do jogo')
-    //     .isAlphanumeric('pt-BR', { ignore: '/ . : ,' }),
+     check('nome')
+    .not().isEmpty().trim().withMessage('É obrigatório informar o nome'), 
 
     // check('premiacao')
     //     .not().isEmpty().trim().withMessage('É obrigatório informar a premiação')
