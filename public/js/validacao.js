@@ -34,7 +34,6 @@ const logoutBtn = document.getElementById("logoutBtn");
 logoutBtn.addEventListener("click", function () {
     // Remova o token do localStorage
     localStorage.removeItem("token");
-
     // Redirecione o usuário para a página de login
     window.location.href = "index.html";
 });

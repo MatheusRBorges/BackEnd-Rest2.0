@@ -1,101 +1,203 @@
-const modal = document.querySelector('.modal-container')
-const tbody = document.querySelector('tbody')
-const sDesenvolvedora = document.querySelector('#m-desenvolvedora')
-const sNome = document.querySelector('#m-nome')
-const sData = document.querySelector('#m-data')
-const sPremios = document.querySelector('#m-premios')
-const btnSalvar = document.querySelector('#btnSalvar')
+//const urlBase = 'https://backend-mongodb-pi.vercel.app/api'
+const urlBase = 'http://localhost:4000/api'
+const resultadoModal = new bootstrap.Modal(document.getElementById("modalMensagem"))
+const access_token = localStorage.getItem("token") || null
 
-let itens
-let id
+//evento submit do formulário
+document.getElementById('formGames').addEventListener('submit', function (event) {
+    event.preventDefault() // evita o recarregamento
+    const idGames = document.getElementById('id').value
+    let game = {}
 
-function openModal(edit = false, index = 0) {
-  modal.classList.add('active')
+    if (idGames.length > 0) { //Se possuir o ID, enviamos junto com o objeto
+        
+       game = {
+            "_id": idGames,
+            "nome": document.getElementById('nomeGame').value,
+            "datalanc": document.getElementById('datalanc').value,
+            "premiacao": document.getElementById('premiacao').value,
+            "categoria": document.getElementById('categoria').value,
+            "plataformas": document.getElementById('plataformas').value,
+            "desenvolvedora": document.getElementById('Desenvolvedora').value,
+            "trofeus": document.getElementById('trofeus').value  
+            
+        }
+    } else {
 
-  modal.onclick = e => {
-    if (e.target.className.indexOf('modal-container') !== -1) {
-      modal.classList.remove('active')
+        game = {
+          "_id": idGames,
+          "nome": document.getElementById('nomeGame').value,
+          "datalanc": document.getElementById('datalanc').value,
+          "premiacao": document.getElementById('premiacao').value,
+          "categoria": document.getElementById('categoria').value,
+          "plataformas": document.getElementById('plataformas').value,
+          "desenvolvedora": document.getElementById('Desenvolvedora').value,
+          "trofeus": document.getElementById('trofeus').value 
+       
+        }
     }
-  }
 
-  if (edit) {
-    sDesenvolvedora.value = itens[index].desenvolvedora
-    sNome.value = itens[index].nome
-    sData.value = itens[index].data
-    sPremios.value = itens[index].premios
-    id = index
-  } else {
-    sDesenvolvedora.value = ''
-    sNome.value = ''
-    sData.value = ''
-    sPremios.value = ''
-  }
-  
+    salvaGames(game)
+})
+
+async function salvaGames(game) {    
+    if (game.hasOwnProperty('_id')) { 
+        await fetch(`${urlBase}/games`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "access-token": access_token //envia o token na requisição
+            },
+            body: JSON.stringify(game)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Verificar se o token foi retornado        
+                if (data.acknowledged) {
+                    alert('✔ Livro alterado com sucesso!')
+                    //Limpar o formulário
+                    document.getElementById('formGames').reset()
+                    location.reload()
+                    //Atualiza a UI
+                    carregaGames()
+                } else if (data.errors) {
+                    // Caso haja erros na resposta da API
+                    const errorMessages = data.errors.map(error => error.msg).join("\n");
+                    // alert("Falha no login:\n" + errorMessages);
+                    document.getElementById("mensagem").innerHTML = `<span class='text-danger'>${errorMessages}</span>`
+                    resultadoModal.show();
+                } else {
+                    document.getElementById("mensagem").innerHTML = `<span class='text-danger'>${JSON.stringify(data)}</span>`
+                    resultadoModal.show();
+                }
+            })
+            .catch(error => {
+                document.getElementById("mensagem").innerHTML = `<span class='text-danger'>Erro ao salvar o livro: ${error.message}</span>`
+                resultadoModal.show();
+            });
+
+    } else { //caso não tenha o ID, iremos incluir (POST)
+        // Fazer a solicitação POST para o endpoint dos livros
+        await fetch(`${urlBase}/games`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "access-token": access_token //envia o token na requisição
+            },
+            body: JSON.stringify(game)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Verificar se o token foi retornado        
+                if (data.acknowledged) {
+                    alert('✔ Livro incluído com sucesso!')
+                    //Limpar o formulário
+                    document.getElementById('formGames').reset()
+                    //Atualiza a UI
+                    carregaGames()
+                } else if (data.errors) {
+                    // Caso haja erros na resposta da API
+                    const errorMessages = data.errors.map(error => error.msg).join("\n");
+                    // alert("Falha no login:\n" + errorMessages);
+                    document.getElementById("mensagem").innerHTML = `<span class='text-danger'>${errorMessages}</span>`
+                    resultadoModal.show();
+                } else {
+                    document.getElementById("mensagem").innerHTML = `<span class='text-danger'>${JSON.stringify(data)}</span>`
+                    resultadoModal.show();
+                }
+            })
+            .catch(error => {
+                document.getElementById("mensagem").innerHTML = `<span class='text-danger'>Erro ao salvar o livro: ${error.message}</span>`
+                resultadoModal.show();
+            });
+    }
 }
 
-function editItem(index) {
+async function carregaGames() {
+    const tabela = document.getElementById('dadosTabela')
+    tabela.innerHTML = '' //Limpa a tabela antes de recarregar
+    // Fazer a solicitação GET para o endpoint dos livros
+    await fetch(`${urlBase}/games`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "access-token": access_token //envia o token na requisição
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
 
-  openModal(true, index)
+            data.forEach(game => {
+
+                tabela.innerHTML += `
+                <tr>
+                   <td>${game.nome}</td>
+                   <td>${game.datalanc}</td>
+                   <td>${game.premiacao}</td>
+                   <td>${game.categoria}</td>
+                   <td>${game.plataformas}</td>
+                   <td>${game.Desenvolvedora}</td>
+                   <td>${game.trofeus}</td>
+                   <td>
+                       <button class='btn btn-danger btn-sm' onclick='removeGames("${game._id}")'>🗑 Excluir </button>
+                       <button class='btn btn-warning btn-sm' onclick='buscaGamesPeloId("${game._id}")'>📝 Editar </button>
+                    </td>           
+                </tr>
+                `
+            })
+        })
+        .catch(error => {
+            document.getElementById("mensagem").innerHTML = `<span class='text-danger'>Erro ao salvar o livro: ${error.message}</span>`
+            resultadoModal.show();
+        });
 }
 
-function deleteItem(index) {
-  itens.splice(index, 1)
-  setItensBD()
-  loadItens()
+async function removeGames(id) {
+    if (confirm('Deseja realmente excluir o livro?')) {
+        await fetch(`${urlBase}/games/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "access-token": access_token //envia o token na requisição
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    //alert('Registro Removido com sucesso')
+                    carregaGames() // atualiza a UI
+                }
+            })
+            .catch(error => {
+                document.getElementById("mensagem").innerHTML = `<span class='text-danger'>Erro ao salvar o livro: ${error.message}</span>`
+                resultadoModal.show();
+            });
+    }
 }
 
-function insertItem(item, index) {
-  let tr = document.createElement('tr')
-
-  tr.innerHTML = `
-    <td>${item.desenvolvedora}</td>
-    <td>${item.nome}</td>
-    <td>${item.data}</td>
-    <td>${item.premios}</td>
-    <td class="acao">
-      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
-    </td>
-    <td class="acao">
-      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
-    </td>
-  `
-  tbody.appendChild(tr)
+async function buscaGamesPeloId(id) {
+    await fetch(`${urlBase}/games/id/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "access-token": access_token //envia o token na requisição
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data[0]) { //Iremos pegar os dados e colocar no formulário.
+                document.getElementById('id').value = data[0]._id
+                document.getElementById('nome').value = data[0].nome
+                document.getElementById('datalanc').value = data[0].datalanc
+                document.getElementById('premiacao').value = data[0].premiacao
+                document.getElementById('categoria').value = data[0].categoria
+                document.getElementById('plataformas').value = data[0].plataformas
+                document.getElementById('Desenvolvedora').value = data[0].desenvolvedora
+                document.getElementById('trofeus').value = data[0].trofeus               
+            }
+        })
+        .catch(error => {
+            document.getElementById("mensagem").innerHTML = `<span class='text-danger'>Erro ao salvar o livro: ${error.message}</span>`
+            resultadoModal.show();
+        });
 }
-
-btnSalvar.onclick = e => {
-  
-  if (sDesenvolvedora.value == '' || sNome.value == '' || sData.value == '' || sPremios.value == '') {
-    return
-  }
-
-  e.preventDefault();
-
-  if (id !== undefined) {
-    itens[id].desenvolvedora = sDesenvolvedora.value
-    itens[id].nome = sNome.value
-    itens[id].data = sData.value
-    itens[id].premios = sPremios.value
-  } else {
-    itens.push({'desenvolvedora': sDesenvolvedora.value, 'nome': sNome.value, 'data': sData.value, 'premios': sPremios.value})
-  }
-
-  setItensBD()
-
-  modal.classList.remove('active')
-  loadItens()
-  id = undefined
-}
-
-function loadItens() {
-  itens = getItensBD()
-  tbody.innerHTML = ''
-  itens.forEach((item, index) => {
-    insertItem(item, index)
-  })
-
-}
-
-const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
-const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
-
-loadItens()

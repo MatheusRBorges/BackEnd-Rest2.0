@@ -18,7 +18,7 @@
       crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body onload="carregaGames()">
     <body style="background-color: rgb(186, 203, 219);;">
         <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #6941cc;">
             <img src="images/controle2.png" width="70" height="70" style="padding-right: 20px;">
@@ -34,53 +34,107 @@
             </div>
         </nav>
         <br>
-<!--Conteudo-->
-  <div class="container">
-    <div class="header">
-      <span>Cadastro de Games</span>
-      <button onclick="openModal()" id="new">Adicionar Game</i></button>
-    </div>
-    <div class="divTable">
-      <table>
-        <thead>
-          <tr>
-            <th style="text-align: center;">Desenvolvedora</th>
-            <th style="text-align: center;">Nome do Game</th>
-            <th style="text-align: center;">Data de Lançamento</th>
-            <th style="text-align: center;">Prêmios</th>
-            <th class="acao">Editar</th>
-            <th class="acao">Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-primary mt-3 text-center">Cadastro de Games</h4>
+                    <form id="formGames" method="post" class="shadow-lg p-3">
+                        <input type="hidden" id="id" name="id" />
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome do Jogo</label>
+                            <input type="text" class="form-control" id="nomeGame" name="nomeGame" placeholder="Nome do Jogo"
+                                autofocus />
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-4">
+                                <label for="data" class="form-label">Data de Lançamento</label>
+                                <input type="number" class="form-control" id="datalanc" name="data" 
+                                    placeholder="Data de Lançamento"/>
+                            </div> 
+                            <div class="col-md-3">
+                                <label for="premiacaoJogo" class="form-label">Premiação</label>
+                                <input type="number" class="form-control" id="premiacao" name="premiacao"
+                                    placeholder="Premiação" />
+                            </div> 
+                            <div class="col-md-4">
+                                <label for="categoriaJogo" class="form-label">Categoria</label>
+                                <input type="text" class="form-control" id="categoria" name="categoria">
+                            </div> 
+                        </div> 
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="plataformasJogo" class="form-label">Plataforma</label>
+                                <input type="text" class="form-control" id="plataformas" name="platforma"
+                                    placeholder="Plataformas do Jogo" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="desenvolvedoraJogo" class="form-label">Desenvolvedora</label>
+                                <input type="text" class="form-control" id="Desenvolvedora" name="desenvolvedoras"
+                                    placeholder="Desenvolvedora do Jogo">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-3">
+                                <label for="trofeusJogo" class="form-label">Troféus</label>
+                                <input type="number" class="form-control" id="trofeus" name="trofeus" 
+                                    placeholder="Troféus Recebidos"/>
+                            </div> 
+                        </div>
+
+                        <!-- Botões-->
+                        <div class="my-5">
+                            <button class="btn btn-success" id="salvar" type="submit">
+                                <i class="bi bi-save"></i> Salvar
+                            </button>
+                            <button class="btn btn-danger" id="limpar" type="reset">
+                                <i class="bi bi-x"></i> Limpar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <h4 class="text-primary mt-3 text-center">Cadastro de Games </h4>
+                    <table class="table table-bordered shadow-lg">
+                        <thead>
+                            <tr class="table-primary">
+                                <th>Nome</th>
+                                <th>Data de Lançamento</th>
+                                <th>Premiação</th>
+                                <th>Categoria</th>
+                                <th>Plataforma</th>
+                                <th>Desenvolvedora</th>
+                                <th>Troféu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dadosTabela"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>,
 <!--Modal-->
-    <div class="modal-container">
-      <div class="modal">
-        <form>
-          <label for="m-desenvolvedora">Desenvolvedora</label>
-          <input id="m-desenvolvedora" type="text" required />
-  
-          <label for="m-nome">Nome do Game</label>
-          <input id="m-nome" type="text" required />
-  
-          <label for="m-data">Data de Lançamento</label>
-          <input id="m-data" type="date" required />
-
-          <label for="m-premios">Prêmios</label>
-          <input id="m-premios" type="text" required />
-
-          <button id="btnSalvar">Salvar</button>
-        </form>
-      </div>
+<div class="modal fade" id="modalMensagem" tabindex="-1" role="dialog">
+    <div class="modal-dialog bg-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Mensagem</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p id="mensagem"></p>
+            </div>
+        </div>
     </div>
+</div>
 <!--Footer-->
 <footer class="text-white text-center py-3 position-fixed fixed-bottom" style="background-color: #6941cc;">
     &copy; 2023 Black&Purple Company. 
 </footer>
   </div>
+
+  <script src="js/validacao.js"></script>
   <script src="js/crud.js"></script>
 </body>
 </html>
