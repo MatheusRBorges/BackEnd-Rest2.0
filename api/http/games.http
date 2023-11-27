@@ -5,24 +5,29 @@
 //GET - lista todos os registros
 GET {{baseURL}}
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU2NDE1OWQ5NDgyYmViMGIzMzk2MjJlIn0sImlhdCI6MTcwMTA1OTkzOCwiZXhwIjoxNzAxMzE5MTM4fQ.tmqaao5BYPidg7lpwFq5n0kGlG5vwu6k_zPKcNbc8vw
 ###
 //GET - lista um registro pelo id
 GET {{baseURL}}/id/651721b35cfed2b590283dc4
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU2NDE1OWQ5NDgyYmViMGIzMzk2MjJlIn0sImlhdCI6MTcwMTA1OTkzOCwiZXhwIjoxNzAxMzE5MTM4fQ.tmqaao5BYPidg7lpwFq5n0kGlG5vwu6k_zPKcNbc8vw
 ###
 //GET - lista um registro pelo nome
 GET {{baseURL}}/nome/V
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU2NDE1OWQ5NDgyYmViMGIzMzk2MjJlIn0sImlhdCI6MTcwMTA1OTkzOCwiZXhwIjoxNzAxMzE5MTM4fQ.tmqaao5BYPidg7lpwFq5n0kGlG5vwu6k_zPKcNbc8vw
 ###
 //DELETE - apaga um registro pelo id (Descobrir o porque não esta deletando)
 DELETE {{baseURL}}/65187c7e79d8a7f0440f6471
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU2NDE1OWQ5NDgyYmViMGIzMzk2MjJlIn0sImlhdCI6MTcwMTA1OTkzOCwiZXhwIjoxNzAxMzE5MTM4fQ.tmqaao5BYPidg7lpwFq5n0kGlG5vwu6k_zPKcNbc8vw
 ###
 //POST - Insere um novo registro
 POST {{baseURL}}
 Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoiNjU2NDE1OWQ5NDgyYmViMGIzMzk2MjJlIn0sImlhdCI6MTcwMTA1OTkzOCwiZXhwIjoxNzAxMzE5MTM4fQ.tmqaao5BYPidg7lpwFq5n0kGlG5vwu6k_zPKcNbc8vw
 
-    {
+{
      "nome": "Skyrim",
     "data-lanc" : "11-11-2011",
     "premiacao" : "BAFTA Video Games Award: Melhor Jogo",

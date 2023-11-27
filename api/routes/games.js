@@ -10,48 +10,48 @@ const nomeCollection = 'games'
 import auth from '../middleware/auth.js';
 
 const validaGames = [
-    check('nome')
-        .not().isEmpty().trim().withMessage('É obrigatório informar o nome do jogo')
-        .isAlphanumeric('pt-BR', { ignore: '/ . : ,' }),
+    // check('nome')
+    //     .not().isEmpty().trim().withMessage('É obrigatório informar o nome do jogo')
+    //     .isAlphanumeric('pt-BR', { ignore: '/ . : ,' }),
 
-    check('premiacao')
-        .not().isEmpty().trim().withMessage('É obrigatório informar a premiação')
-        .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
-        .withMessage('A premiação não deve conter caracteres especiais')
-        .isLength({ min: 2 }).withMessage('A premiação é muita curta. Mínimo 2')
-        .isLength({ max: 800 }).withMessage('A premiação é muito longa. Máximo 800'),
+    // check('premiacao')
+    //     .not().isEmpty().trim().withMessage('É obrigatório informar a premiação')
+    //     .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
+    //     .withMessage('A premiação não deve conter caracteres especiais')
+    //     .isLength({ min: 0 }).withMessage('A premiação é muita curta. Mínimo 2')
+    //     .isLength({ max: 3 }).withMessage('A premiação é muito longa. Máximo 800'),
 
-    check('categoria')
-        .not().isEmpty().trim().withMessage('É obrigatório informar a ctaegoria')
-        .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
-        .withMessage('A categoria não deve conter caracteres especiais')
-        .isLength({ min: 2 }).withMessage('A categoria é muita curta. Mínimo 2')
-        .isLength({ max: 200 }).withMessage('A categoria é muito longa. Máximo 200'),
+    // check('categoria')
+    //     .not().isEmpty().trim().withMessage('É obrigatório informar a ctaegoria')
+    //     .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
+    //     .withMessage('A categoria não deve conter caracteres especiais')
+    //     .isLength({ min: 0 }).withMessage('A categoria é muita curta. Mínimo 2')
+    //     .isLength({ max: 3 }).withMessage('A categoria é muito longa. Máximo 200'),
 
-    check('plataformas')
-        .not().isEmpty().trim().withMessage('É obrigatório informar a plataforma')
-        .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
-        .withMessage('A plataforma não deve conter caracteres especiais')
-        .isLength({ min: 2 }).withMessage('A plataforma é muita curta. Mínimo 2')
-        .isLength({ max: 200 }).withMessage('A plataforma é muito longa. Máximo 200'),
+    // check('plataformas')
+    //     .not().isEmpty().trim().withMessage('É obrigatório informar a plataforma')
+    //     .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
+    //     .withMessage('A plataforma não deve conter caracteres especiais')
+    //     .isLength({ min: 0 }).withMessage('A plataforma é muita curta. Mínimo 2')
+    //     .isLength({ max: 3 }).withMessage('A plataforma é muito longa. Máximo 200'),
 
-    check('Desenvolvedora')
-        .not().isEmpty().trim().withMessage('É obrigatório informar o nome da Desenvolvedora')
-        .isAlphanumeric('pt-BR', { ignore: '/ . : ,' })
-        .withMessage('O nome da Desenvolvedora não deve conter caracteres especiais')
-        .isLength({ min: 1 }).withMessage('O nome é muito pequeno. Mínimo 4')
-        .isLength({ max: 200 }).withMessage('O nome é muito grande. Máximo 20'),
+    // check('Desenvolvedora')
+    //     .not().isEmpty().trim().withMessage('É obrigatório informar o nome da Desenvolvedora')
+    //     .isAlphanumeric('pt-BR', { ignore: ' / . : , ' })
+    //     .withMessage('O nome da Desenvolvedora não deve conter caracteres especiais')
+    //     .isLength({ min: 0 }).withMessage('O nome é muito pequeno. Mínimo 4')
+    //     .isLength({ max: 0 }).withMessage('O nome é muito grande. Máximo 20'),
 
-    check('trofeus')
-        .not().isEmpty().trim().withMessage('É obrigatório informar o nome do trofeu')
-        .isLength({ min: 2 }).withMessage(' Mínimo 2')
-        .isLength({ max: 3 }).withMessage(' Máximo 700'),
+    // check('trofeus')
+    //     .not().isEmpty().trim().withMessage('É obrigatório informar o nome do trofeu')
+    //     .isLength({ min:0 }).withMessage(' Mínimo 2')
+    //     .isLength({ max: 3 }).withMessage(' Máximo 700'),
 ]
 
 //GET /API/GAMES
 //LISTA TODOS OS GAMES
 
-router.get('/', async (req, res) => {
+router.get('/',auth, async (req, res) => {
     try {
         db.collection(nomeCollection).find().sort({ nome: 1 })
             .toArray((err, docs) => {
@@ -71,7 +71,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id',auth, async (req, res) => {
     try {
         db.collection(nomeCollection).find({ '_id': { $eq: ObjectId(req.params.id) } })
             .toArray((err, docs) => {
@@ -89,7 +89,7 @@ router.get('/id/:id', async (req, res) => {
  * GET  /API/GAMES/games:games
  * LISTA OS OS GAMES PELO NOME
  */
-router.get('/nome/:nome', async (req, res) => {
+router.get('/nome/:nome',auth, async (req, res) => {
     try {
         db.collection(nomeCollection)
             .find({ 'nome': { $regex: req.params.nome, $options: "i" } }).sort({ nome: -1 })
@@ -109,7 +109,7 @@ router.get('/nome/:nome', async (req, res) => {
  * APAGA TODOS OS GAMES PELO ID
  */
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',auth, async (req, res) => {
     await db.collection(nomeCollection)
         .deleteOne({ "_id": { $eq: ObjectId(req.params) } })
         .then(result => res.status(200).send(result))
@@ -119,7 +119,7 @@ router.delete('/:id', async (req, res) => {
  * POST /API/GAMES/ : ID
  * INSIRA UM NOVO GAMES 
  */
-router.post('/', validaGames, async (req, res) => {
+router.post('/', auth, validaGames, async (req, res) => {
     const erros = validationResult(req)
     if (!erros.isEmpty()) {
         return res.status(400).json(({
@@ -137,7 +137,7 @@ router.post('/', validaGames, async (req, res) => {
  * PUT /API/GAMES/ : ID
  * ALTERA UM NOVO GAME
  */
-router.put('/', validaGames, async (req, res) => {
+router.put('/',auth, validaGames, async (req, res) => {
     let idDocumento = req.body._id  //armazenando o id documento
     delete req.body._id //iremos remover o id do body
     const erros = validationResult(req)
@@ -154,7 +154,7 @@ router.put('/', validaGames, async (req, res) => {
     }
 });
 
-router.get('/nome', async (req, res) => {
+router.get('/nome',auth, async (req, res) => {
     try {
         db.collection(nomeCollection).find({
             nome: /^V/
@@ -170,7 +170,7 @@ router.get('/nome', async (req, res) => {
     }
 });
 
-router.get('/trofeus', async (req, res) => {
+router.get('/trofeus',auth, async (req, res) => {
     try {
         db.collection(nomeCollection).find({
             'trofeus': { $gte: 1, $lte: 229 } 
