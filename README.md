@@ -12,6 +12,7 @@
 
 3. 🎯Objetivo
 A API da Games tem como objetivo gerenciar informações sobre os Detalhes dos Jogos. Ela fornece operações básicas, como criar, recuperar, atualizar e excluir informações sobre Jogos.
+Após o usuário se cadastrar na pag Cadastro ele devera clicar no nome Black&Purple para ser redirecionado para Pag Home onde podera Interagir com as Demais Paginas
 
 
 📦Packages Utilizados
